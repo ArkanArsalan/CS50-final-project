@@ -34,8 +34,8 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    """Show portfolio of stocks"""
-    return render_template("index.html")
+    movies = db.execute("SELECT * FROM movies order by RANDOM() LIMIT 10")
+    return render_template("index.html", movies=movies)
 
 
 @app.route("/login", methods=["GET", "POST"])
