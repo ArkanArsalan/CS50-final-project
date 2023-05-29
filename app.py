@@ -35,21 +35,7 @@ def after_request(response):
 @login_required
 def index():
     """Show portfolio of stocks"""
-    return apology("TODO")
-
-
-@app.route("/buy", methods=["GET", "POST"])
-@login_required
-def buy():
-    """Buy shares of stock"""
-    return apology("TODO")
-
-
-@app.route("/history")
-@login_required
-def history():
-    """Show history of transactions"""
-    return apology("TODO")
+    return render_template("index.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -99,22 +85,51 @@ def logout():
     return redirect("/")
 
 
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-    """Get stock quote."""
-    return apology("TODO")
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    """Register user"""
-    return apology("TODO")
+    if request.method == "POST":
+        # Collect data from user
+        username = request.form.get("username")
+        password = request.form.get("password")
+        confirmation_pass = request.form.get("confirmation")
+
+        # Ensure username, password, and confirmation password submitted
+        if not username:
+            error_message = "Must provide username"
+            flash(error_message)
+            return redirect("/register")
+        if not password:
+            error_message = "Must provide password"
+            flash(error_message)
+            return redirect("/register")
+        if not confirmation_pass:
+            error_message = "Must provide confirmation password"
+            flash(error_message)
+            return redirect("/register")
+
+        # Check if password and confirmation_pass password do not match
+        if confirmation_pass != password:
+            error_message = "Confirmation password do not match"
+            flash(error_message)
+            return redirect("/register")
+
+        # Check if username already in database
+        user = db.execute("SELECT * FROM users")
+        for row in user:
+            if username == row["username"]:
+                error_message = "Username already been used"
+                flash(error_message)
+                return redirect("/register")
+        else:
+            # Insert new user info to database
+            hash_password = generate_password_hash(password)
+            new_user = db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", username, hash_password)
+            session["user_id"] = new_user
+        return redirect("/")
+
+    else:
+        return render_template("register.html")
 
 
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-    """Sell shares of stock"""
-    return apology("TODO")
 
