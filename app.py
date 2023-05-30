@@ -19,7 +19,7 @@ Session(app)
 
 
 # Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///movies.db")
+db = SQL("sqlite:///MOVRAT.db")
 
 
 @app.after_request
@@ -34,7 +34,7 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    movies = db.execute("SELECT * FROM movies order by RANDOM() LIMIT 10")
+    movies = db.execute("SELECT * FROM movies_rating LIMIT 10")
     return render_template("index.html", movies=movies)
 
 
