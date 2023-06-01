@@ -137,6 +137,29 @@ def register():
 
     else:
         return render_template("register.html")
+    
 
+@app.route("/review", methods=["GET", "POST"])
+@login_required
+def review():
+    return render_template("review.html")
+
+
+@app.route("/movies", methods=["GET", "POST"])
+@login_required
+def movies():
+    return render_template("movies.html")
+
+
+@app.route("/actors", methods=["GET", "POST"])
+@login_required
+def actors():
+    return render_template("actors.html")
+
+
+@app.route("/watchlater", methods=["GET", "POST"])
+@login_required
+def watchlater():
+    return render_template("watchlater.html")
 
 
