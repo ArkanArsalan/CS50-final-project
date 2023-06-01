@@ -34,7 +34,7 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    movies = db.execute("SELECT * FROM movies_rating LIMIT 10")
+    movies = db.execute("SELECT movies.title, movies.year, movies_rating.avg_rating FROM movies_rating JOIN movies ON movies.id = movies_rating.movie_id LIMIT 10")
     return render_template("index.html", movies=movies)
 
 
