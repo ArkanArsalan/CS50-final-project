@@ -142,7 +142,40 @@ def register():
 @app.route("/review", methods=["GET", "POST"])
 @login_required
 def review():
-    return render_template("review.html")
+    if request.method == "POST":
+        # Get the data from user (movie name, rating, comment)
+        movie_name = request.form.get("movie-name")
+        rating = request.form.getlist("rating")
+        comment = request.form.get("comment")
+        movie_name = movie_name.capitalize()
+
+        if not movie_name:
+            error_message = "Must provide movie name"
+            flash(error_message)
+        elif not rating:
+            error_message = "Must select rating"
+            flash(error_message)
+        elif not comment:
+            error_message = "Must provide comment"
+            flash(error_message)
+        else:
+            user_id = session["user_id"]
+            movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_name)
+            if not movie_id:
+                flash("Movie doesn't exist")
+                return redirect("/review")
+            else:
+                db.execute("INSERT INTO user_review (user_id, movie_id, rating, review_comment) VALUES (?, ?, ?, ?)", user_id, int(movie_id[0]["id"]), rating, comment)
+                # Update rating accumulation
+                movie_rating = db.execute("SELECT * FROM user_review WHERE movie_id = ?", int(movie_id[0]["id"]))
+                sum = 0
+                for row in movie_rating:
+                    sum += int(row["rating"])
+                avg_rating = sum / len(movie_rating)
+                db.execute("INSERT INTO movies_rating (movie_id, avg_rating) VALUES (?, ?)", int(movie_id[0]["id"]), avg_rating)
+                return redirect("/")
+    else:
+        return render_template("review.html")
 
 
 @app.route("/movies", methods=["GET", "POST"])

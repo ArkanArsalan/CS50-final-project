@@ -15,3 +15,16 @@
     border-radius: 15px;
     flex-grow: 1;
 }
+
+#comment-container {
+    display: flex;
+    justify-content: center;
+}
+
+#comment-label {
+    margin-right: 10px;
+}
+
+label {
+    justify-content: center;
+}
