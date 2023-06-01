@@ -1,3 +1,17 @@
-#top-rated-section {
+#section-title {
     text-align: left;
+}
+
+#top-comment {
+    display: flex;
+}
+
+#comment-item {
+    min-height: 200px;
+    width: 200px;
+    margin: 10px;
+    background-color: grey;
+    border: 3px solid black;
+    border-radius: 15px;
+    flex-grow: 1;
 }
