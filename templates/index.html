@@ -5,25 +5,32 @@
 {% endblock %}
 
 {% block main %}
-<h2 id="section-title">Top Rated Movies</h2>
+<br>
+<h1 id="section-title">Top Rated Movies</h1>
 <ol class="list-group list-group-numbered">
     {% for movie in movies %}
-    <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div>
-            <div class="fw-bold" id="title">{{ movie["title"] }}</div>
-            <div id="year">{{ movie["year"] }}</div>
-            <div id="avg-rating">rating: {{ movie["avg_rating"] }}</div>
-        </div>
-      <span class="badge bg-primary">+Add to watch later</span>
-    </li>
+        {% if movie["rating"] != -1 %}
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="fw-bold" id="title">{{ movie["title"] }}</div>
+                    <div id="year">{{ movie["year"] }}</div>
+                    <div id="avg-rating">rating: {{ movie["rating"] }}</div>
+                </div>
+            <span class="badge bg-primary">+Add to watch later</span>
+            </li>
+        {% endif %}
     {% endfor %}
 </ol>
-
-<h2 id="section-title">Top Comment</h2>
+<br>
+<h1 id="section-title">User Review</h1>
 <div id="top-comment">
-    <div id="comment-item">comment 1</div>
-    <div id="comment-item">comment 2</div>
-    <div id="comment-item">comment 3</div>
+    {% for row in user_review %}
+        <div id="comment-item">
+            <p>{{ row["title"] }}</p>
+            <p>Username : {{ row["username"] }}</p>
+            <p>Comment: <br> {{ row["comment"] }} </p>
+            <p>Rating: {{ row["rating"] }}</p>
+        </div>
+    {% endfor %}
 </div>
-
 {% endblock %}

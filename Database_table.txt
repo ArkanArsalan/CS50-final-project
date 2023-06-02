@@ -1,0 +1,52 @@
+CREATE TABLE movies (
+                    id INTEGER,
+                    title TEXT NOT NULL,
+                    year NUMERIC, 
+                    rating DEFAULT -1.00,
+                    PRIMARY KEY(id)
+                );
+
+CREATE TABLE stars (
+                movie_id INTEGER NOT NULL,
+                person_id INTEGER NOT NULL,
+                FOREIGN KEY(movie_id) REFERENCES movies(id),
+                FOREIGN KEY(person_id) REFERENCES people(id)
+            );
+
+CREATE TABLE directors (
+                movie_id INTEGER NOT NULL,
+                person_id INTEGER NOT NULL,
+                FOREIGN KEY(movie_id) REFERENCES movies(id),
+                FOREIGN KEY(person_id) REFERENCES people(id)
+            );
+
+CREATE TABLE ratings (
+                movie_id INTEGER NOT NULL,
+                rating REAL NOT NULL,
+                votes INTEGER NOT NULL,
+                FOREIGN KEY(movie_id) REFERENCES movies(id)
+            );
+
+CREATE TABLE people (
+                id INTEGER,
+                name TEXT NOT NULL,
+                birth NUMERIC,
+                PRIMARY KEY(id)
+            );
+
+CREATE TABLE users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
+                username TEXT NOT NULL, 
+                password_hash TEXT NOT NULL
+            );
+
+CREATE TABLE sqlite_sequence(name,seq);
+
+CREATE TABLE user_review (
+                user_id INTEGER NOT NULL,
+                movie_id INTEGER NOT NULL, 
+                rating REAL, 
+                review_comment TEXT, 
+                FOREIGN KEY(user_id) REFERENCES users(id), 
+                FOREIGN KEY(movie_id) REFERENCES movies(id)
+            );

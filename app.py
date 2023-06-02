@@ -34,8 +34,9 @@ def after_request(response):
 @app.route("/")
 @login_required
 def index():
-    movies = db.execute("SELECT movies.title, movies.year, movies_rating.avg_rating FROM movies_rating JOIN movies ON movies.id = movies_rating.movie_id LIMIT 10")
-    return render_template("index.html", movies=movies)
+    movies = db.execute("SELECT id, title, year, rating FROM movies ORDER BY rating DESC LIMIT 10")
+    user_review = db.execute("SELECT users.username AS username, movies.title AS title, user_review.review_comment AS comment, user_review.rating AS rating FROM user_review JOIN movies ON user_review.movie_id = movies.id JOIN users ON user_review.user_id = users.id LIMIT 3")
+    return render_template("index.html", movies=movies, user_review=user_review)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -149,6 +150,7 @@ def review():
         comment = request.form.get("comment")
         movie_name = movie_name.capitalize()
 
+        # Ensure user insert all the data required
         if not movie_name:
             error_message = "Must provide movie name"
             flash(error_message)
@@ -159,6 +161,7 @@ def review():
             error_message = "Must provide comment"
             flash(error_message)
         else:
+            # Get user id and movie id
             user_id = session["user_id"]
             movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_name)
             if not movie_id:
@@ -172,7 +175,7 @@ def review():
                 for row in movie_rating:
                     sum += int(row["rating"])
                 avg_rating = sum / len(movie_rating)
-                db.execute("INSERT INTO movies_rating (movie_id, avg_rating) VALUES (?, ?)", int(movie_id[0]["id"]), avg_rating)
+                db.execute("UPDATE movies SET rating = ? WHERE id = ?", avg_rating, int(movie_id[0]["id"]))
                 return redirect("/")
     else:
         return render_template("review.html")
