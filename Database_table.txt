@@ -47,6 +47,7 @@ CREATE TABLE user_review (
                 movie_id INTEGER NOT NULL, 
                 rating REAL, 
                 review_comment TEXT, 
+                datetime TEXT,
                 FOREIGN KEY(user_id) REFERENCES users(id), 
                 FOREIGN KEY(movie_id) REFERENCES movies(id)
             );

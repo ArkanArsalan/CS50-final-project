@@ -5,8 +5,9 @@ from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import date
 
-from helpers import apology, login_required, lookup, usd
+from helpers import login_required
 
 # Configure application
 app = Flask(__name__)
@@ -148,7 +149,7 @@ def review():
         movie_name = request.form.get("movie-name")
         rating = request.form.getlist("rating")
         comment = request.form.get("comment")
-        movie_name = movie_name.capitalize()
+        
 
         # Ensure user insert all the data required
         if not movie_name:
@@ -168,7 +169,10 @@ def review():
                 flash("Movie doesn't exist")
                 return redirect("/review")
             else:
-                db.execute("INSERT INTO user_review (user_id, movie_id, rating, review_comment) VALUES (?, ?, ?, ?)", user_id, int(movie_id[0]["id"]), rating, comment)
+                # Insert data user review to database
+                datetoday = date.today()
+                comment_date = datetoday.strftime("%d %B, %Y")
+                db.execute("INSERT INTO user_review (user_id, movie_id, rating, review_comment, datetime) VALUES (?, ?, ?, ?, ?)", user_id, int(movie_id[0]["id"]), rating, comment, comment_date)
                 # Update rating accumulation
                 movie_rating = db.execute("SELECT * FROM user_review WHERE movie_id = ?", int(movie_id[0]["id"]))
                 sum = 0
@@ -197,5 +201,8 @@ def actors():
 @login_required
 def watchlater():
     return render_template("watchlater.html")
+
+
+
 
 
