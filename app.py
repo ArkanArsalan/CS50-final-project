@@ -188,7 +188,13 @@ def review():
 @app.route("/movies", methods=["GET", "POST"])
 @login_required
 def movies():
-    return render_template("movies.html")
+    if request.method == "POST":
+        movie_name = request.form.get("movie-name")
+        outputs = db.execute("SELECT * FROM movies WHERE title LIKE ?", "%"+movie_name+"%")
+
+        return render_template("movies.html", outputs=outputs)
+    else:
+        return render_template("movies.html")
 
 
 @app.route("/actors", methods=["GET", "POST"])

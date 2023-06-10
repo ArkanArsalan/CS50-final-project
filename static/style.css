@@ -28,3 +28,11 @@
 label {
     justify-content: center;
 }
+
+.search-bar-movie-name {
+    display: flex;
+    justify-content: left;
+    height: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

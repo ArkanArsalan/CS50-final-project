@@ -5,6 +5,26 @@
 {% endblock %}
 
 {% block main %}
-<h1>movies</h1>
-
+<form action="/movies" method="POST" >
+    <div class="search-bar-movie-name">
+        <input type="text" id="movie-name" name="movie-name" placeholder="Movie Name">
+        <button type="submit" id="search-button">Search</button>
+    </div>
+</form>
+<ol class="list-group list-group-numbered">
+    {% for output in outputs %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <div class="fw-bold" id="title">{{ output["title"] }}</div>
+                <div id="year">{{ output["year"] }}</div>
+                {% if output["rating"] != -1 %}
+                    <div id="rating">Rating: {{ output["rating"] }}</div>
+                {% else %}
+                    <div id="rating">Rating: Not Yet Rated</div>
+                {% endif %}
+            </div>
+        <span class="badge bg-primary">+Add to watch later</span>
+        </li>
+    {% endfor %}
+</ol>
 {% endblock %}
