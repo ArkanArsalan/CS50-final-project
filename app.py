@@ -190,9 +190,20 @@ def review():
 def movies():
     if request.method == "POST":
         movie_name = request.form.get("movie-name")
-        outputs = db.execute("SELECT * FROM movies WHERE title LIKE ?", "%"+movie_name+"%")
+        movie_year_release = request.form.get("movie-year")
+        
+        if not movie_name:
+            error_message = "Movie name required"
+            flash(error_message)
 
-        return render_template("movies.html", outputs=outputs)
+        if not movie_year_release:
+            outputs = db.execute("SELECT * FROM movies WHERE title LIKE ? ORDER BY rating DESC LIMIT 100", "%"+movie_name+"%")
+            return render_template("movies.html", outputs=outputs)
+        else:
+            movie_year_release = int(movie_year_release)
+            outputs = db.execute("SELECT * FROM movies WHERE title LIKE ? AND year == ? ORDER BY rating DESC LIMIT 100", "%"+movie_name+"%", movie_year_release)
+            return render_template("movies.html", outputs=outputs)
+
     else:
         return render_template("movies.html")
 

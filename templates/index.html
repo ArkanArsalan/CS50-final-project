@@ -26,11 +26,12 @@
 <div id="top-comment">
     {% for row in user_review %}
         <div id="comment-item">
-            <p>{{ row["title"] }}</p>
-            <p>Username : {{ row["username"] }}</p>
-            <p>Comment: <br> {{ row["comment"] }} </p>
-            <p>Rating: {{ row["rating"] }}</p>
+            <p id="title">{{ row["title"] }}</p>
+            <p id="username">Username : {{ row["username"] }}</p>
+            <p id="comment">Comment: <br> {{ row["comment"] }} </p>
+            <p id="rating">Rating: {{ row["rating"] }}</p>
         </div>
     {% endfor %}
 </div>
+
 {% endblock %}

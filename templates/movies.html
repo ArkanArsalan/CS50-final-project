@@ -5,11 +5,14 @@
 {% endblock %}
 
 {% block main %}
-<form action="/movies" method="POST" >
-    <div class="search-bar-movie-name">
-        <input type="text" id="movie-name" name="movie-name" placeholder="Movie Name">
-        <button type="submit" id="search-button">Search</button>
+<form action="/movies" method="POST">
+    <div class="search-movie">
+        <input type="text" class="box-input" id="movie-name" name="movie-name" placeholder="Movie Name">
     </div>
+    <div class="search-movie">
+        <input type="number" class="box-input id="movie-year" name="movie-year" min="1900" max="2099" step="1" placeholder="Year">
+    </div>
+    <button type="submit" id="search-button">Search</button>
 </form>
 <ol class="list-group list-group-numbered">
     {% for output in outputs %}
@@ -20,7 +23,7 @@
                 {% if output["rating"] != -1 %}
                     <div id="rating">Rating: {{ output["rating"] }}</div>
                 {% else %}
-                    <div id="rating">Rating: Not Yet Rated</div>
+                    <div id="not-yet-rated">Rating: Not Yet Rated</div>
                 {% endif %}
             </div>
         <span class="badge bg-primary">+Add to watch later</span>
