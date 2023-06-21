@@ -6,7 +6,7 @@
 
 {% block main %}
 <br>
-<h1 id="section-title">Top Rated Movies</h1>
+<h1 class="section-title">Top Rated Movies</h1>
 <ol class="list-group list-group-numbered">
     {% for movie in movies %}
         {% if movie["rating"] != -1 %}
@@ -16,13 +16,13 @@
                     <div id="year">{{ movie["year"] }}</div>
                     <div id="avg-rating">rating: {{ movie["rating"] }}</div>
                 </div>
-            <span class="badge bg-primary">+Add to watch later</span>
+                <span class="badge bg-primary"><a id="watchlater-button" href="{{ url_for('add_watchlater_main_page', movie_title=movie.title) }}">+Add to watch later</a></span>
             </li>
         {% endif %}
     {% endfor %}
 </ol>
 <br>
-<h1 id="section-title">User Review</h1>
+<h1 class="section-title">User Review</h1>
 <div id="top-comment">
     {% for row in user_review %}
         <div id="comment-item">

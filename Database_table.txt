@@ -51,3 +51,10 @@ CREATE TABLE user_review (
                 FOREIGN KEY(user_id) REFERENCES users(id), 
                 FOREIGN KEY(movie_id) REFERENCES movies(id)
             );
+
+CREATE TABLE watch_later (
+                user_id INTEGER NOT NULL,
+                movie_id INTEGER NOT NULL, 
+                FOREIGN KEY(user_id) REFERENCES users(id), 
+                FOREIGN KEY(movie_id) REFERENCES movies(id)
+);

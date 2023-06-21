@@ -1,10 +1,20 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    watchlater
+    Watch Later
 {% endblock %}
 
 {% block main %}
-<h1>watchlater</h1>
-
+<ol class="list-group list-group-numbered">
+    {% for movie in movie_list %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <div class="fw-bold" id="title">{{ movie["title"] }}</div>
+                <div id="year">{{ movie["year"] }}</div>
+            </div>
+            <span class="badge bg-primary">Remove</span>
+        </li>
+    {% endfor %}
+</ol>
 {% endblock %}
+

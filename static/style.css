@@ -1,4 +1,4 @@
-#section-title {
+.section-title {
     text-align: left;
     font-size: 21px;
 }
@@ -51,3 +51,7 @@ label {
     transition: all 160ms ease-in-out;
 }
 
+#watchlater-button {
+    color: white;
+    text-decoration: none;
+}
