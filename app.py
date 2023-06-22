@@ -206,7 +206,8 @@ def movies():
             return render_template("movies.html", outputs=outputs)
     
     else:
-        return render_template("movies.html")
+        outputs = db.execute("SELECT * FROM movies ORDER BY RANDOM() LIMIT 100")
+        return render_template("movies.html", outputs=outputs)
 
 
 @app.route("/actors", methods=["GET", "POST"])
@@ -268,6 +269,5 @@ def watch_later():
     user_id = session["user_id"]
     movie_list = db.execute("SELECT movies.title, movies.year FROM movies JOIN watch_later ON movies.id = watch_later.movie_id WHERE watch_later.user_id = ?", user_id)
     
-    print(movie_list)
     return render_template("watchlater.html", movie_list=movie_list)
 
