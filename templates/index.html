@@ -16,7 +16,7 @@
                     <div id="year">{{ movie["year"] }}</div>
                     <div id="avg-rating">rating: {{ movie["rating"] }}</div>
                 </div>
-                <span class="badge bg-primary"><a id="watchlater-button" href="{{ url_for('add_watchlater_main_page', movie_title=movie.title) }}">+Add to watch later</a></span>
+                <span class="badge" id="watchlater-button"><a id="watchlater-button-font" href="{{ url_for('add_watchlater_main_page', movie_title=movie.title) }}">+Add to watch later</a></span>
             </li>
         {% endif %}
     {% endfor %}

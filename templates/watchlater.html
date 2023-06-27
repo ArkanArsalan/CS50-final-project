@@ -5,6 +5,8 @@
 {% endblock %}
 
 {% block main %}
+<br>
+<h1 class="section-title">Watch later</h1>
 <ol class="list-group list-group-numbered">
     {% for movie in movie_list %}
         <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -12,7 +14,7 @@
                 <div class="fw-bold" id="title">{{ movie["title"] }}</div>
                 <div id="year">{{ movie["year"] }}</div>
             </div>
-            <span class="badge bg-primary">Remove</span>
+            <span class="badge" id="remove-button"><a id="remove-button-font" href="{{ url_for('remove_watchlater', movie_title=movie.title) }}">Remove</a></span>
         </li>
     {% endfor %}
 </ol>

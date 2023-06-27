@@ -26,7 +26,7 @@
                     <div id="not-yet-rated">Rating: Not Yet Rated</div>
                 {% endif %}
             </div>
-            <span class="badge bg-primary"><a id="watchlater-button" href="{{ url_for('add_watchlater_movies_page', movie_title=output.title) }}">+Add to watch later</a></span>
+            <span class="badge" id="watchlater-button"><a id="watchlater-button-font" href="{{ url_for('add_watchlater_movies_page', movie_title=output.title) }}">+Add to watch later</a></span>
         </li>
     {% endfor %}
 </ol>

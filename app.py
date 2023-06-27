@@ -12,7 +12,6 @@ from helpers import login_required
 # Configure application
 app = Flask(__name__)
 
-
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -38,8 +37,8 @@ def index():
     # Getting movies and user review data from databases
     movies = db.execute("SELECT id, title, year, rating FROM movies ORDER BY rating DESC LIMIT 10")
     user_review = db.execute("SELECT users.username AS username, movies.title AS title, user_review.review_comment AS comment, user_review.rating AS rating FROM user_review JOIN movies ON user_review.movie_id = movies.id JOIN users ON user_review.user_id = users.id LIMIT 3")
-
     return render_template("index.html", movies=movies, user_review=user_review)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -217,10 +216,18 @@ def actors():
 
 
 @app.route("//<string:movie_title>")
+@login_required
 def add_watchlater_main_page(movie_title):
-    # Get the user id, new movie id
+    print(f"movie title: {movie_title}")
+    # Get the user id
     user_id = session["user_id"]
+
+    # Get movie id
     new_movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title) 
+
+    # Handling if movie_id not found
+    if not new_movie_id:
+        return redirect("/watchlater")
 
     # Check if already in watchlater list  
     in_list = False
@@ -240,10 +247,17 @@ def add_watchlater_main_page(movie_title):
     return redirect("/")
 
 @app.route("/movies/<string:movie_title>")
+@login_required
 def add_watchlater_movies_page(movie_title):
-    # Get the user id, new movie id
+    # Get the user id
     user_id = session["user_id"]
+
+    # Get movie id
     new_movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title) 
+
+    # Handling if movie_id not found
+    if not new_movie_id:
+        return redirect("/watchlater")
 
     # Check if already in watchlater list  
     in_list = False
@@ -271,3 +285,25 @@ def watch_later():
     
     return render_template("watchlater.html", movie_list=movie_list)
 
+
+@app.route("/watchlater/<string:movie_title>")
+@login_required
+def remove_watchlater(movie_title):
+    # Get movie id
+    movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title)
+
+    # Handling if movie_id not found
+    if not movie_id:
+        return redirect("/watchlater")
+    
+    # Get user_id
+    user_id = session["user_id"]
+
+    # Remove the movie from watch_later table in database
+    db.execute("DELETE FROM watch_later WHERE movie_id = ? AND user_id = ?", movie_id[0]["id"], user_id)
+    
+    # Redirect to watchlater page
+    return redirect("/watchlater")
+
+if __name__ == "__main__":
+    app.run()

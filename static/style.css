@@ -52,6 +52,29 @@ label {
 }
 
 #watchlater-button {
+    background-color: #0079ff;
+    transition: 0.4s;
+}
+
+#watchlater-button:hover {
+    background-color: #0464d2;
+}
+
+#watchlater-button-font {
+    color: white;
+    text-decoration: none;
+}
+
+#remove-button {
+    background-color: #ED2B2A;
+    transition: 0.4s;
+}
+
+#remove-button:hover {
+    background-color: #d12525;
+}
+
+#remove-button-font {
     color: white;
     text-decoration: none;
 }
