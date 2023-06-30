@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Celebs
+{% endblock %}
+
+{% block main %}
+<form action="/celebs" method="POST">
+    <div class="search-movie">
+        <input type="text" class="box-input" id="celeb-name" name="celeb-name" placeholder="Celeb Name">
+    </div>
+    <div class="search-movie">
+        <input type="number" class="box-input" id="birth-year" name="birth-year" min="1800" max="2023" step="1" placeholder="birth-Year">
+    </div>
+    <button type="submit" id="search-button">Search</button>
+</form>
+<ol class="list-group list-group-numbered">
+    {% for output in outputs %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <div class="fw-bold" id="title">{{ output["name"] }}</div>
+                <div id="year">Birth year : {{ output["birth"] }}</div>
+            </div>
+            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb', celeb_name=output.name) }}">+Favorite</a></span>
+        </li>
+    {% endfor %}
+</ol>
+{% endblock %}

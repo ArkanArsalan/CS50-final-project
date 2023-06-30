@@ -3,6 +3,11 @@
     font-size: 21px;
 }
 
+.sub-section-title {
+    text-align: left;
+    font-size: 18px;
+}
+
 #top-comment {
     display: flex;
 }
@@ -61,6 +66,20 @@ label {
 }
 
 #watchlater-button-font {
+    color: white;
+    text-decoration: none;
+}
+
+#favorite-button {
+    background-color: #0079ff;
+    transition: 0.4s;
+}
+
+#favorite-button:hover {
+    background-color: #0464d2;
+}
+
+#favorite-button-font {
     color: white;
     text-decoration: none;
 }

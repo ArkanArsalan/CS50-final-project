@@ -209,16 +209,64 @@ def movies():
         return render_template("movies.html", outputs=outputs)
 
 
-@app.route("/actors", methods=["GET", "POST"])
+@app.route("/celebs", methods=["GET", "POST"])
 @login_required
-def actors():
-    return render_template("actors.html")
+def celebs():
+    if request.method == "POST":
+        celeb_name = request.form.get("celeb-name")
+        birth_year = request.form.get("birth-year")
+        print(birth_year)
+        
+        if not celeb_name:
+            error_message = "Celeb name required"
+            flash(error_message)
+
+        if not birth_year:
+            outputs = db.execute("SELECT * FROM people WHERE name LIKE ? ORDER BY birth DESC LIMIT 100", "%"+celeb_name+"%")
+            return render_template("celebs.html", outputs=outputs)
+        else:
+            outputs = db.execute("SELECT * FROM people WHERE name LIKE ? AND birth == ? ORDER BY birth DESC LIMIT 100", "%"+celeb_name+"%", birth_year)
+            return render_template("celebs.html", outputs=outputs)
+    
+    else:
+        outputs = db.execute("SELECT * FROM people WHERE birth IS NOT NULL ORDER BY RANDOM() LIMIT 100")
+        return render_template("celebs.html", outputs=outputs)
+
+
+@app.route("/celebs/<string:celeb_name>")
+@login_required
+def add_favorite_celeb(celeb_name):
+    # Get the user id
+    user_id = session["user_id"]
+
+    # Get celeb id
+    celeb_id = db.execute("SELECT id FROM people WHERE name = ?", celeb_name) 
+
+    # Handling if celeb_id not found
+    if not celeb_id:
+        return redirect("/celebs")
+
+    # Check if already in favorite celebs list
+    in_list = False
+    list_favorite_celeb = db.execute("SELECT * FROM favorite_celebs WHERE user_id = ?", user_id)
+    for row in list_favorite_celeb:
+        if row["person_id"] == celeb_id[0]["id"]:
+            error_message = "Already in the list"
+            flash(error_message)
+            in_list = True
+            return redirect("/celebs")
+    
+    # Insert the data to watch_later table in database
+    if not in_list:
+        db.execute("INSERT INTO favorite_celebs(person_id, user_id) VALUES (?, ?)", celeb_id[0]["id"], user_id)
+    
+    # Redirect to celeb page
+    return redirect("/celebs")
 
 
 @app.route("//<string:movie_title>")
 @login_required
 def add_watchlater_main_page(movie_title):
-    print(f"movie title: {movie_title}")
     # Get the user id
     user_id = session["user_id"]
 
