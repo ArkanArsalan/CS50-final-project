@@ -209,6 +209,60 @@ def movies():
         return render_template("movies.html", outputs=outputs)
 
 
+@app.route("/movies/<string:movie_title>")
+@login_required
+def movie_detail_movies_page(movie_title):
+    # Get user id
+    user_id  = session["user_id"]
+
+    # Get movie id
+    movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title)
+
+    # Handling if movie_id not found
+    if not movie_id:
+        return redirect("/movies")
+    
+    # Get all the movie information
+    movie_info = db.execute("SELECT * FROM movies WHERE id = ?", movie_id[0]["id"])
+
+    # Get the movie stars and director
+    movie_stars = db.execute("SELECT * FROM people JOIN stars ON people.id = stars.person_id WHERE stars.movie_id = ?", movie_id[0]["id"])
+    movie_directors = db.execute("SELECT * FROM people JOIN directors ON people.id = directors.person_id WHERE directors.movie_id = ?", movie_id[0]["id"])
+
+    # Get user review
+    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id[0]["id"])
+
+    # Return the page
+    return render_template("movie_detail.html", movie_info=movie_info[0], movie_stars=movie_stars, movie_directors=movie_directors[0], user_review=user_review)
+    
+
+@app.route("/movies/<string:movie_title>")
+@login_required
+def movie_detail_index_page(movie_title):
+    # Get user id
+    user_id  = session["user_id"]
+
+    # Get movie id
+    movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title)
+
+    # Handling if movie_id not found
+    if not movie_id:
+        return redirect("/movies")
+    
+    # Get all the movie information
+    movie_info = db.execute("SELECT * FROM movies WHERE id = ?", movie_id[0]["id"])
+
+    # Get the movie stars and director
+    movie_stars = db.execute("SELECT * FROM people JOIN stars ON people.id = stars.person_id WHERE stars.movie_id = ?", movie_id[0]["id"])
+    movie_directors = db.execute("SELECT * FROM people JOIN directors ON people.id = directors.person_id WHERE directors.movie_id = ?", movie_id[0]["id"])
+
+    # Get user review
+    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id[0]["id"])
+
+    # Return the page
+    return render_template("movie_detail.html", movie_info=movie_info[0], movie_stars=movie_stars, movie_directors=movie_directors[0], user_review=user_review)
+ 
+
 @app.route("/celebs", methods=["GET", "POST"])
 @login_required
 def celebs():
@@ -236,7 +290,7 @@ def celebs():
 @app.route("/celebs/<string:celeb_name>")
 @login_required
 def add_favorite_celeb(celeb_name):
-    # Get the user id
+    # Get user id
     user_id = session["user_id"]
 
     # Get celeb id
@@ -267,7 +321,7 @@ def add_favorite_celeb(celeb_name):
 @app.route("//<string:movie_title>")
 @login_required
 def add_watchlater_main_page(movie_title):
-    # Get the user id
+    # Get user id
     user_id = session["user_id"]
 
     # Get movie id
@@ -297,7 +351,7 @@ def add_watchlater_main_page(movie_title):
 @app.route("/movies/<string:movie_title>")
 @login_required
 def add_watchlater_movies_page(movie_title):
-    # Get the user id
+    # Get user id
     user_id = session["user_id"]
 
     # Get movie id
@@ -353,5 +407,6 @@ def remove_watchlater(movie_title):
     # Redirect to watchlater page
     return redirect("/watchlater")
 
+
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

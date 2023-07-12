@@ -6,17 +6,52 @@
 
 {% block main %}
 <br>
-<h1 class="section-title">Movie Name</h1>
+<h2 class="sub-title">{{ movie_info["title"]}}</h2>
+<p>{{ movie_info["year"] }}</p>
 
-<h2 class="sub-section-title">Actors</h2>
-<ol>
-    <li></li>
+
+<h2 class="sub-section-title">List Actors</h2>
+<ol class="list-group list-group-numbered">
+    {% for person in movie_stars %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <div class="fw-bold" id="title">{{ person["name"] }}</div>
+                <div id="year">Birth year : {{ person["birth"] }}</div>
+            </div>
+            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb', celeb_name=person.name) }}">+Favorite</a></span>
+        </li>
+    {% endfor %}
 </ol>
 
+<br>
 <h2 class="sub-section-title">Directors</h2>
+<ol class="list-group list-group">
+        <li class="list-group-item d-flex justify-content-center align-items-start">
+            <div>
+                <div class="fw-bold" id="director-name">{{ movie_directors["name"] }}</div>
+                <div id="director-birth-year">Birth year : {{ movie_directors["birth"] }}</div>
+            </div>
+        </li>
+</ol>
 
 
+<br>
 <h2 class="sub-section-title">User Review</h2>
-<ol></ol>
+<div class="list-group">
+    {% if not user_review %}
+    <p>No review yet.</p>
+    {% else %}
+        {% for review in user_review %}
+            <div class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <p>Author: {{ review["username"] }}</p>
+                    <small>{{ review["datetime"]}}</small>
+                </div>
+                <p class="mb-1">{{ review["review_comment"] }}</p>
+                <small>Rating: {{ review["rating"] }}</small>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
 
 {% endblock %}
