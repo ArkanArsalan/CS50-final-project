@@ -37,7 +37,6 @@ def index():
     # Getting movies and user review data from databases
     movies = db.execute("SELECT id, title, year, rating FROM movies ORDER BY rating DESC LIMIT 10")
     celebs = db.execute("SELECT * FROM people WHERE favorite_vote > 0 LIMIT 10")
-    print(celebs)
     return render_template("index.html", movies=movies, celebs=celebs)
 
 
@@ -212,7 +211,7 @@ def movies():
 
 @app.route("/movies/<string:movie_title>")
 @login_required
-def movie_detail_movies_page(movie_title):
+def movie_detail(movie_title):
     # Get user id
     user_id  = session["user_id"]
 
@@ -236,32 +235,6 @@ def movie_detail_movies_page(movie_title):
     # Return the page
     return render_template("movie_detail.html", movie_info=movie_info[0], movie_stars=movie_stars, movie_directors=movie_directors[0], user_review=user_review)
     
-
-@app.route("/movies/<string:movie_title>")
-@login_required
-def movie_detail_index_page(movie_title):
-    # Get user id
-    user_id  = session["user_id"]
-
-    # Get movie id
-    movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title)
-
-    # Handling if movie_id not found
-    if not movie_id:
-        return redirect("/movies")
-    
-    # Get all the movie information
-    movie_info = db.execute("SELECT * FROM movies WHERE id = ?", movie_id[0]["id"])
-
-    # Get the movie stars and director
-    movie_stars = db.execute("SELECT * FROM people JOIN stars ON people.id = stars.person_id WHERE stars.movie_id = ?", movie_id[0]["id"])
-    movie_directors = db.execute("SELECT * FROM people JOIN directors ON people.id = directors.person_id WHERE directors.movie_id = ?", movie_id[0]["id"])
-
-    # Get user review
-    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id[0]["id"])
-
-    # Return the page
-    return render_template("movie_detail.html", movie_info=movie_info[0], movie_stars=movie_stars, movie_directors=movie_directors[0], user_review=user_review)
  
 
 @app.route("/celebs", methods=["GET", "POST"])

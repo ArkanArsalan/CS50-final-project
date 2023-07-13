@@ -15,7 +15,7 @@
                     <div class="fw-bold" id="title">{{ movie["title"] }}</div>
                     <div id="year">{{ movie["year"] }}</div>
                     <div id="avg-rating">rating: {{ movie["rating"] }}</div>
-                    <span class="badge" id="detail-button"><a id="detail-button-font" href="{{ url_for('movie_detail_index_page', movie_title=movie.title) }}">Detail</a></span>
+                    <span class="badge" id="detail-button"><a id="detail-button-font" href="{{ url_for('movie_detail', movie_title=movie.title) }}">Detail</a></span>
                 </div>
                 <span class="badge" id="watchlater-button"><a id="watchlater-button-font" href="{{ url_for('add_watchlater_main_page', movie_title=movie.title) }}">+Add to watch later</a></span>
             </li>
