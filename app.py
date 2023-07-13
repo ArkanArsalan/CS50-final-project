@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -209,7 +209,7 @@ def movies():
         return render_template("movies.html", outputs=outputs)
 
 
-@app.route("/movies/<string:movie_title>")
+@app.route("/movies/info/<string:movie_title>")
 @login_required
 def movie_detail(movie_title):
     # Get user id
@@ -291,8 +291,6 @@ def add_favorite_celeb(celeb_name):
     # Update favorite vote data on people table
     curr_vote = db.execute("SELECT favorite_vote FROM people WHERE id = ?", celeb_id[0]["id"])
     new_vote = curr_vote[0]["favorite_vote"] + 1
-    print(f"curr_vote {curr_vote}")
-    print(f"new_vote {new_vote}")
     db.execute("UPDATE people SET favorite_vote = ? WHERE id = ?", new_vote, celeb_id[0]["id"])
 
     # Redirect to celeb page
@@ -320,14 +318,14 @@ def add_watchlater_main_page(movie_title):
             error_message = "Already in watch later"
             flash(error_message)
             in_list = True
-            return redirect("/")
+            return redirect(url_for("index"))
     
     # Insert the data to watch_later table in database
     if not in_list:
         db.execute("INSERT INTO watch_later(movie_id, user_id) VALUES (?, ?)", new_movie_id[0]["id"], user_id)
     
     # Redirect to index page
-    return redirect("/")
+    return redirect(url_for("index"))
 
 @app.route("/movies/<string:movie_title>")
 @login_required
@@ -350,13 +348,13 @@ def add_watchlater_movies_page(movie_title):
             error_message = "Already in watch later"
             flash(error_message)
             in_list = True
-            return redirect("/movies")
+            return redirect(url_for("movies"))
     
     # Insert the data to watch_later table in database
     if not in_list:
         db.execute("INSERT INTO watch_later(movie_id, user_id) VALUES (?, ?)", new_movie_id[0]["id"], user_id)
 
-    return redirect("/movies")
+    return redirect(url_for("movies"))
 
 
 @app.route("/watchlater")
