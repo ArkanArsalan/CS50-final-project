@@ -30,7 +30,8 @@ CREATE TABLE ratings (
 CREATE TABLE people (
                 id INTEGER,
                 name TEXT NOT NULL,
-                birth NUMERIC,
+                birth NUMERIC, 
+                favorite_vote INTEGER DEFAULT 0,
                 PRIMARY KEY(id)
             );
 

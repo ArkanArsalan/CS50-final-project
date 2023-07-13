@@ -22,17 +22,21 @@
         {% endif %}
     {% endfor %}
 </ol>
+
 <br>
-<h1 class="section-title">User Review</h1>
-<div id="top-comment">
-    {% for row in user_review %}
-        <div id="comment-item">
-            <p id="title">{{ row["title"] }}</p>
-            <p id="username">Username : {{ row["username"] }}</p>
-            <p id="comment">Comment: <br> {{ row["comment"] }} </p>
-            <p id="rating">Rating: {{ row["rating"] }}</p>
-        </div>
+
+<h1 class="section-title">Favorite Celebs</h1>
+<ol class="list-group list-group-numbered">
+    {% for celeb in celebs %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div>
+                <div class="fw-bold" id="celeb-name">{{ celeb["name"] }}</div>
+                <div id="celeb-birth-year">Birth year : {{ celeb["birth"] }}</div>
+                <div id="Vote">Vote : {{ celeb["favorite_vote"] }}</div>
+            </div>
+            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb', celeb_name=celeb.name) }}">+Favorite</a></span>
+        </li>
     {% endfor %}
-</div>
+</ol>
 
 {% endblock %}

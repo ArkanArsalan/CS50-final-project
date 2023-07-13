@@ -36,8 +36,9 @@ def after_request(response):
 def index():
     # Getting movies and user review data from databases
     movies = db.execute("SELECT id, title, year, rating FROM movies ORDER BY rating DESC LIMIT 10")
-    user_review = db.execute("SELECT users.username AS username, movies.title AS title, user_review.review_comment AS comment, user_review.rating AS rating FROM user_review JOIN movies ON user_review.movie_id = movies.id JOIN users ON user_review.user_id = users.id LIMIT 3")
-    return render_template("index.html", movies=movies, user_review=user_review)
+    celebs = db.execute("SELECT * FROM people WHERE favorite_vote > 0 LIMIT 10")
+    print(celebs)
+    return render_template("index.html", movies=movies, celebs=celebs)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -314,6 +315,13 @@ def add_favorite_celeb(celeb_name):
     if not in_list:
         db.execute("INSERT INTO favorite_celebs(person_id, user_id) VALUES (?, ?)", celeb_id[0]["id"], user_id)
     
+    # Update favorite vote data on people table
+    curr_vote = db.execute("SELECT favorite_vote FROM people WHERE id = ?", celeb_id[0]["id"])
+    new_vote = curr_vote[0]["favorite_vote"] + 1
+    print(f"curr_vote {curr_vote}")
+    print(f"new_vote {new_vote}")
+    db.execute("UPDATE people SET favorite_vote = ? WHERE id = ?", new_vote, celeb_id[0]["id"])
+
     # Redirect to celeb page
     return redirect("/celebs")
 
