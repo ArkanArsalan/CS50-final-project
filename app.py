@@ -209,7 +209,7 @@ def movies():
         return render_template("movies.html", outputs=outputs)
 
 
-@app.route("/movies/info/<string:movie_title>")
+@app.route("/movies/title:<string:movie_title>")
 @login_required
 def movie_detail(movie_title):
     # Get user id
@@ -297,9 +297,7 @@ def add_favorite_celeb(celeb_name):
     return redirect("/celebs")
 
 
-@app.route("//<string:movie_title>")
-@login_required
-def add_watchlater_main_page(movie_title):
+def insert_to_watchlater(movie_title):
     # Get user id
     user_id = session["user_id"]
 
@@ -311,49 +309,37 @@ def add_watchlater_main_page(movie_title):
         return redirect("/watchlater")
 
     # Check if already in watchlater list  
-    in_list = False
     list_watchlater = db.execute("SELECT * FROM watch_later WHERE user_id = ?", user_id)
     for row in list_watchlater:
         if row["movie_id"] == new_movie_id[0]["id"]:
-            error_message = "Already in watch later"
-            flash(error_message)
-            in_list = True
-            return redirect(url_for("index"))
-    
+            return False
+
     # Insert the data to watch_later table in database
-    if not in_list:
-        db.execute("INSERT INTO watch_later(movie_id, user_id) VALUES (?, ?)", new_movie_id[0]["id"], user_id)
-    
-    # Redirect to index page
+    db.execute("INSERT INTO watch_later(movie_id, user_id) VALUES (?, ?)", new_movie_id[0]["id"], user_id)
+    return True
+
+
+@app.route("//<string:movie_title>")
+@login_required
+def add_watchlater_main_page(movie_title):
+    # If movies already in watchlater list flash error message
+    if not insert_to_watchlater(movie_title):
+        error_message = "Already in watch later"
+        flash(error_message)
+
+    # Redirect to main page
     return redirect(url_for("index"))
+
 
 @app.route("/movies/<string:movie_title>")
 @login_required
 def add_watchlater_movies_page(movie_title):
-    # Get user id
-    user_id = session["user_id"]
+    # If movies already in watchlater list flash error message
+    if not insert_to_watchlater(movie_title):
+        error_message = "Already in watch later"
+        flash(error_message)
 
-    # Get movie id
-    new_movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title) 
-
-    # Handling if movie_id not found
-    if not new_movie_id:
-        return redirect("/watchlater")
-
-    # Check if already in watchlater list  
-    in_list = False
-    list_watchlater = db.execute("SELECT * FROM watch_later WHERE user_id = ?", user_id)
-    for row in list_watchlater:
-        if row["movie_id"] == new_movie_id[0]["id"]:
-            error_message = "Already in watch later"
-            flash(error_message)
-            in_list = True
-            return redirect(url_for("movies"))
-    
-    # Insert the data to watch_later table in database
-    if not in_list:
-        db.execute("INSERT INTO watch_later(movie_id, user_id) VALUES (?, ?)", new_movie_id[0]["id"], user_id)
-
+    # Redirect to movies page
     return redirect(url_for("movies"))
 
 
