@@ -18,7 +18,6 @@
                 <div class="fw-bold" id="title">{{ person["name"] }}</div>
                 <div id="year">Birth year : {{ person["birth"] }}</div>
             </div>
-            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb', celeb_name=person.name) }}">+Favorite</a></span>
         </li>
     {% endfor %}
 </ol>

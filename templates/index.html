@@ -34,7 +34,7 @@
                 <div id="celeb-birth-year">Birth year : {{ celeb["birth"] }}</div>
                 <div id="Vote">Vote : {{ celeb["favorite_vote"] }}</div>
             </div>
-            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb', celeb_name=celeb.name) }}">+Favorite</a></span>
+            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_main_page', celeb_name=celeb.name) }}">+Favorite</a></span>
         </li>
     {% endfor %}
 </ol>

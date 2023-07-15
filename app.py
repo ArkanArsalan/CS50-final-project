@@ -261,9 +261,7 @@ def celebs():
         return render_template("celebs.html", outputs=outputs)
 
 
-@app.route("/celebs/<string:celeb_name>")
-@login_required
-def add_favorite_celeb(celeb_name):
+def insert_to_favceleb(celeb_name):
     # Get user id
     user_id = session["user_id"]
 
@@ -275,26 +273,43 @@ def add_favorite_celeb(celeb_name):
         return redirect("/celebs")
 
     # Check if already in favorite celebs list
-    in_list = False
     list_favorite_celeb = db.execute("SELECT * FROM favorite_celebs WHERE user_id = ?", user_id)
     for row in list_favorite_celeb:
         if row["person_id"] == celeb_id[0]["id"]:
-            error_message = "Already in the list"
-            flash(error_message)
-            in_list = True
-            return redirect("/celebs")
+            return False
     
     # Insert the data to watch_later table in database
-    if not in_list:
-        db.execute("INSERT INTO favorite_celebs(person_id, user_id) VALUES (?, ?)", celeb_id[0]["id"], user_id)
+    db.execute("INSERT INTO favorite_celebs(person_id, user_id) VALUES (?, ?)", celeb_id[0]["id"], user_id)
     
     # Update favorite vote data on people table
     curr_vote = db.execute("SELECT favorite_vote FROM people WHERE id = ?", celeb_id[0]["id"])
     new_vote = curr_vote[0]["favorite_vote"] + 1
     db.execute("UPDATE people SET favorite_vote = ? WHERE id = ?", new_vote, celeb_id[0]["id"])
+    return True
+
+
+@app.route("/celebs/name:<string:celeb_name>")
+@login_required
+def add_favorite_celeb_celebs_page(celeb_name):
+    # If celeb already in favorite list flash error message
+    if not insert_to_favceleb(celeb_name):
+        error_message = "Already in your favorite list"
+        flash(error_message)
 
     # Redirect to celeb page
-    return redirect("/celebs")
+    return redirect(url_for("celebs"))
+
+
+@app.route("//name:<string:celeb_name>")
+@login_required
+def add_favorite_celeb_main_page(celeb_name):
+    # If celeb already in favorite list flash error message
+    if not insert_to_favceleb(celeb_name):
+        error_message = "Already in your favorite list"
+        flash(error_message)
+
+    # Redirect to celeb page
+    return redirect(url_for("index"))
 
 
 def insert_to_watchlater(movie_title):
