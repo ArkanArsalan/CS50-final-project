@@ -89,7 +89,25 @@ label {
     transition: 0.4s;
 }
 
+#detail-button:hover {
+    background-color: #0464d2;
+}
+
 #detail-button-font {
+    color: white;
+    text-decoration: none;
+}
+
+#movie-list-button {
+    background-color: #0079ff;
+    transition: 0.4s;
+}
+
+#movie-list-button:hover {
+    background-color: #0464d2;
+}
+
+#movie-list-button-font {
     color: white;
     text-decoration: none;
 }

@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{ movie_list_actor[0]["name"] }}
+{% endblock %}
+
+{% block main %}
+<br>
+<h2 class="sub-title">{{ movie_list_actor[0]["name"] }}</h2>
+<p>{{ movie_list_actor[0]["birth"] }}</p>
+<p>Director and Actor</p>
+
+
+<h2 class="sub-section-title">List Movie as an actor</h2>
+<ol class="list-group list-group">
+    {% for movie in movie_list_actor %}
+        <li class="list-group-item d-flex justify-content-center align-items-start">
+            <div>
+                <div class="fw-bold" id="title">{{ movie["title"] }}</div>
+                <div id="year">{{ movie["year"] }}</div>
+                {% if movie["rating"] != -1 %}
+                    <div id="rating">Rating: {{ movie["rating"] }}</div>
+                {% else %}
+                    <div id="not-yet-rated">Rating: Not Yet Rated</div>
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
+</ol>
+
+<br>
+
+<h2 class="sub-section-title">List Movie as a director</h2>
+<ol class="list-group list-group">
+    {% for movie in movie_list_director %}
+        <li class="list-group-item d-flex justify-content-center align-items-start">
+            <div>
+                <div class="fw-bold" id="title">{{ movie["title"] }}</div>
+                <div id="year">{{ movie["year"] }}</div>
+                {% if movie["rating"] != -1 %}
+                    <div id="rating">Rating: {{ movie["rating"] }}</div>
+                {% else %}
+                    <div id="not-yet-rated">Rating: Not Yet Rated</div>
+                {% endif %}
+            </div>
+        </li>
+    {% endfor %}
+</ol>
+
+{% endblock %}
+

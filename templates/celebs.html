@@ -20,6 +20,7 @@
             <div>
                 <div class="fw-bold" id="title">{{ output["name"] }}</div>
                 <div id="year">Birth year : {{ output["birth"] }}</div>
+                <span class="badge" id="movie-list-button"><a id="movie-list-button-font" href="{{ url_for('celeb_movie_list', celeb_id=output.id) }}">Detail</a></span>
             </div>
             <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_celebs_page', celeb_name=output.name) }}">+Favorite</a></span>
         </li>

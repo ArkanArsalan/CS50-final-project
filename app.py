@@ -388,5 +388,46 @@ def remove_watchlater(movie_title):
     return redirect("/watchlater")
 
 
+def is_director(celeb_id):
+    # Check celeb id in director table
+    director = db.execute("SELECT * FROM directors WHERE person_id = ?", celeb_id)
+
+    # return true if data exist otherwise false
+    if not director:
+        return False
+    return True
+
+
+def is_actor(celeb_id):
+    # Check celeb id in director table
+    actor = db.execute("SELECT * FROM stars WHERE person_id = ?", celeb_id)
+
+    # return true if data exist otherwise false
+    if not actor:
+        return False
+    return True
+
+
+@app.route("/celebs/id:<string:celeb_id>")
+@login_required
+def celeb_movie_list(celeb_id):
+    # Check is celeb director or actor
+    actor = is_actor(celeb_id)
+    director = is_director(celeb_id)
+
+    # Find list movie if celeb is actor
+    if actor == True and director == False:
+        movie_list = db.execute("SELECT * FROM movies JOIN stars ON movies.id = stars.movie_id JOIN people ON stars.person_id = people.id WHERE people.id = ?", celeb_id)
+        return render_template("movie_list_actor.html", movie_list=movie_list)
+    # Find list movie if celeb is director
+    elif actor == False and director == True:
+        movie_list = db.execute("SELECT * FROM movies JOIN directors on movies.id = directors.movie_id JOIN people ON directors.person_id = people.id WHERE people.id = ?", celeb_id)
+        return render_template("movie_list_director.html", movie_list=movie_list)
+    # Find list movie if celeb director and actor
+    elif actor == True and director == True:
+        movie_list_actor = db.execute("SELECT * FROM movies JOIN stars ON movies.id = stars.movie_id JOIN people ON stars.person_id = people.id WHERE people.id = ?", celeb_id)
+        movie_list_director = db.execute("SELECT * FROM movies JOIN directors on movies.id = directors.movie_id JOIN people ON directors.person_id = people.id WHERE people.id = ?", celeb_id)
+        return render_template("movie_list_actor_director.html", movie_list_actor=movie_list_actor, movie_list_director=movie_list_director)
+
 if __name__ == "__main__":
     app.run(debug=True)

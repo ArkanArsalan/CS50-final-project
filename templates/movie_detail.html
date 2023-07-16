@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Detail movies
+    {{ movie_info["title"] }}
 {% endblock %}
 
 {% block main %}
@@ -11,9 +11,9 @@
 
 
 <h2 class="sub-section-title">List Actors</h2>
-<ol class="list-group list-group-numbered">
+<ol class="list-group list-group">
     {% for person in movie_stars %}
-        <li class="list-group-item d-flex justify-content-between align-items-start">
+        <li class="list-group-item d-flex justify-content-center align-items-start">
             <div>
                 <div class="fw-bold" id="title">{{ person["name"] }}</div>
                 <div id="year">Birth year : {{ person["birth"] }}</div>
