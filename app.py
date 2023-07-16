@@ -36,7 +36,7 @@ def after_request(response):
 def index():
     # Getting movies and user review data from databases
     movies = db.execute("SELECT id, title, year, rating FROM movies ORDER BY rating DESC LIMIT 10")
-    celebs = db.execute("SELECT * FROM people WHERE favorite_vote > 0 LIMIT 10")
+    celebs = db.execute("SELECT * FROM people WHERE favorite_vote > 0 ORDER BY favorite_vote DESC LIMIT 10")
     return render_template("index.html", movies=movies, celebs=celebs)
 
 
