@@ -357,6 +357,17 @@ def add_watchlater_movies_page(movie_title):
     # Redirect to movies page
     return redirect(url_for("movies"))
 
+@app.route("/movies/detail/<string:movie_title>")
+@login_required
+def add_watchlater_movies_detail_page(movie_title):
+    # If movies already in watchlater list flash error message
+    if not insert_to_watchlater(movie_title):
+        error_message = "Already in watch later"
+        flash(error_message)
+
+    # Redirect to movies page
+    return redirect(url_for("movie_detail", movie_title=movie_title))
+
 
 @app.route("/watchlater")
 @login_required
