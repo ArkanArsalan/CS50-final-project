@@ -209,28 +209,25 @@ def movies():
         return render_template("movies.html", outputs=outputs)
 
 
-@app.route("/movies/title:<string:movie_title>")
+@app.route("/movies/id:<string:movie_id>")
 @login_required
-def movie_detail(movie_title):
+def movie_detail(movie_id):
     # Get user id
     user_id  = session["user_id"]
-
-    # Get movie id
-    movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title)
 
     # Handling if movie_id not found
     if not movie_id:
         return redirect("/movies")
     
     # Get all the movie information
-    movie_info = db.execute("SELECT * FROM movies WHERE id = ?", movie_id[0]["id"])
+    movie_info = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
 
     # Get the movie stars and director
-    movie_stars = db.execute("SELECT * FROM people JOIN stars ON people.id = stars.person_id WHERE stars.movie_id = ?", movie_id[0]["id"])
-    movie_directors = db.execute("SELECT * FROM people JOIN directors ON people.id = directors.person_id WHERE directors.movie_id = ?", movie_id[0]["id"])
+    movie_stars = db.execute("SELECT * FROM people JOIN stars ON people.id = stars.person_id WHERE stars.movie_id = ?", movie_id)
+    movie_directors = db.execute("SELECT * FROM people JOIN directors ON people.id = directors.person_id WHERE directors.movie_id = ?", movie_id)
 
     # Get user review
-    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id[0]["id"])
+    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id)
 
     # Return the page
     return render_template("movie_detail.html", movie_info=movie_info[0], movie_stars=movie_stars, movie_directors=movie_directors[0], user_review=user_review)
@@ -312,33 +309,30 @@ def add_favorite_celeb_main_page(celeb_name):
     return redirect(url_for("index"))
 
 
-def insert_to_watchlater(movie_title):
+def insert_to_watchlater(movie_id):
     # Get user id
     user_id = session["user_id"]
 
-    # Get movie id
-    new_movie_id = db.execute("SELECT id FROM movies WHERE title = ?", movie_title) 
-
     # Handling if movie_id not found
-    if not new_movie_id:
+    if not movie_id:
         return redirect("/watchlater")
 
     # Check if already in watchlater list  
     list_watchlater = db.execute("SELECT * FROM watch_later WHERE user_id = ?", user_id)
     for row in list_watchlater:
-        if row["movie_id"] == new_movie_id[0]["id"]:
+        if str(row["movie_id"]) == movie_id:
             return False
 
     # Insert the data to watch_later table in database
-    db.execute("INSERT INTO watch_later(movie_id, user_id) VALUES (?, ?)", new_movie_id[0]["id"], user_id)
+    db.execute("INSERT INTO watch_later(movie_id, user_id) VALUES (?, ?)", movie_id, user_id)
     return True
 
 
-@app.route("//<string:movie_title>")
+@app.route("//add/<string:movie_id>")
 @login_required
-def add_watchlater_main_page(movie_title):
+def add_watchlater_main_page(movie_id):
     # If movies already in watchlater list flash error message
-    if not insert_to_watchlater(movie_title):
+    if not insert_to_watchlater(movie_id):
         error_message = "Already in watch later"
         flash(error_message)
 
@@ -346,27 +340,28 @@ def add_watchlater_main_page(movie_title):
     return redirect(url_for("index"))
 
 
-@app.route("/movies/<string:movie_title>")
+@app.route("/movies/add/<string:movie_id>")
 @login_required
-def add_watchlater_movies_page(movie_title):
+def add_watchlater_movies_page(movie_id):
     # If movies already in watchlater list flash error message
-    if not insert_to_watchlater(movie_title):
+    if not insert_to_watchlater(movie_id):
         error_message = "Already in watch later"
         flash(error_message)
 
     # Redirect to movies page
     return redirect(url_for("movies"))
 
-@app.route("/movies/detail/<string:movie_title>")
+
+@app.route("/movies/detail/add/<string:movie_id>")
 @login_required
-def add_watchlater_movies_detail_page(movie_title):
+def add_watchlater_movies_detail_page(movie_id):
     # If movies already in watchlater list flash error message
-    if not insert_to_watchlater(movie_title):
+    if not insert_to_watchlater(movie_id):
         error_message = "Already in watch later"
         flash(error_message)
 
     # Redirect to movies page
-    return redirect(url_for("movie_detail", movie_title=movie_title))
+    return redirect(url_for("movie_detail", movie_id=movie_id))
 
 
 @app.route("/watchlater")

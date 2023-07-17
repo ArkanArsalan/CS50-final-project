@@ -8,7 +8,7 @@
 <br>
 <h2 class="sub-title">{{ movie_info["title"]}}</h2>
 <p>{{ movie_info["year"] }}</p>
-<span class="badge" id="movie-list-button"><a id="movie-list-button-font" href="{{ url_for('add_watchlater_movies_detail_page', movie_title = movie_info.title) }}">+ Add to watch later</a></span>
+<span class="badge" id="movie-list-button"><a id="movie-list-button-font" href="{{ url_for('add_watchlater_movies_detail_page', movie_id=movie_info.id) }}">+ Add to watch later</a></span>
 
 
 <h2 class="sub-section-title">List Actors</h2>
