@@ -258,12 +258,9 @@ def celebs():
         return render_template("celebs.html", outputs=outputs)
 
 
-def insert_to_favceleb(celeb_name):
+def insert_to_favceleb(celeb_id):
     # Get user id
     user_id = session["user_id"]
-
-    # Get celeb id
-    celeb_id = db.execute("SELECT id FROM people WHERE name = ?", celeb_name) 
 
     # Handling if celeb_id not found
     if not celeb_id:
@@ -272,24 +269,24 @@ def insert_to_favceleb(celeb_name):
     # Check if already in favorite celebs list
     list_favorite_celeb = db.execute("SELECT * FROM favorite_celebs WHERE user_id = ?", user_id)
     for row in list_favorite_celeb:
-        if row["person_id"] == celeb_id[0]["id"]:
+        if str(row["person_id"]) == celeb_id:
             return False
     
     # Insert the data to watch_later table in database
-    db.execute("INSERT INTO favorite_celebs(person_id, user_id) VALUES (?, ?)", celeb_id[0]["id"], user_id)
+    db.execute("INSERT INTO favorite_celebs(person_id, user_id) VALUES (?, ?)", celeb_id, user_id)
     
     # Update favorite vote data on people table
-    curr_vote = db.execute("SELECT favorite_vote FROM people WHERE id = ?", celeb_id[0]["id"])
+    curr_vote = db.execute("SELECT favorite_vote FROM people WHERE id = ?", celeb_id)
     new_vote = curr_vote[0]["favorite_vote"] + 1
-    db.execute("UPDATE people SET favorite_vote = ? WHERE id = ?", new_vote, celeb_id[0]["id"])
+    db.execute("UPDATE people SET favorite_vote = ? WHERE id = ?", new_vote, celeb_id)
     return True
 
 
-@app.route("/celebs/name:<string:celeb_name>")
+@app.route("/celebs/name:<string:celeb_id>")
 @login_required
-def add_favorite_celeb_celebs_page(celeb_name):
+def add_favorite_celeb_celebs_page(celeb_id):
     # If celeb already in favorite list flash error message
-    if not insert_to_favceleb(celeb_name):
+    if not insert_to_favceleb(celeb_id):
         error_message = "Already in your favorite list"
         flash(error_message)
 
@@ -297,11 +294,11 @@ def add_favorite_celeb_celebs_page(celeb_name):
     return redirect(url_for("celebs"))
 
 
-@app.route("//name:<string:celeb_name>")
+@app.route("//name:<string:celeb_id>")
 @login_required
-def add_favorite_celeb_main_page(celeb_name):
+def add_favorite_celeb_main_page(celeb_id):
     # If celeb already in favorite list flash error message
-    if not insert_to_favceleb(celeb_name):
+    if not insert_to_favceleb(celeb_id):
         error_message = "Already in your favorite list"
         flash(error_message)
 

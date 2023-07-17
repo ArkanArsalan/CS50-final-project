@@ -35,7 +35,7 @@
                 <div id="Vote">Vote : {{ celeb["favorite_vote"] }}</div>
                 <span class="badge" id="movie-list-button"><a id="movie-list-button-font" href="{{ url_for('celeb_movie_list', celeb_id=celeb.id) }}">Detail</a></span>
             </div>
-            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_main_page', celeb_name=celeb.name) }}">+Favorite</a></span>
+            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_main_page', celeb_id=celeb.id) }}">+Favorite</a></span>
         </li>
     {% endfor %}
 </ol>
