@@ -237,7 +237,7 @@ def movie_detail(movie_id):
 @login_required
 def movie_user_review(movie_id):
     # Get the data
-    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id)
+    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ? ORDER BY RANDOM()", movie_id)
     movie_info = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
     print(movie_info)
 
