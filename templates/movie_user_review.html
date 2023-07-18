@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ movie_info["title"] }}
+{% endblock %}
+
+{% block main %}
+<br>
+<h2 class="sub-title">User Review: {{ movie_info[0]["title"]}}</h2>
+<p>{{ movie_info[0]["year"] }}</p>
+
+<br>
+
+<div class="list-group">
+    {% if not user_review %}
+    <p>No review yet.</p>
+    {% else %}
+        {% for review in user_review %}
+            <div class="list-group-item">
+                <div class="d-flex w-100 justify-content-between">
+                    <p>Author: {{ review["username"] }}</p>
+                    <small>{{ review["datetime"]}}</small>
+                </div>
+                <p class="mb-1">{{ review["review_comment"] }}</p>
+                <small>Rating: {{ review["rating"] }}</small>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+{% endblock %}

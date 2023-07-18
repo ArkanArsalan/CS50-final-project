@@ -227,12 +227,23 @@ def movie_detail(movie_id):
     movie_directors = db.execute("SELECT * FROM people JOIN directors ON people.id = directors.person_id WHERE directors.movie_id = ?", movie_id)
 
     # Get user review
-    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id)
+    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ? ORDER BY RANDOM() LIMIT 5", movie_id)
 
     # Return the page
     return render_template("movie_detail.html", movie_info=movie_info[0], movie_stars=movie_stars, movie_directors=movie_directors[0], user_review=user_review)
     
  
+@app.route("/movies/user_review/id:<string:movie_id>")
+@login_required
+def movie_user_review(movie_id):
+    # Get the data
+    user_review = db.execute("SELECT * FROM user_review JOIN users ON user_review.user_id = users.id WHERE movie_id = ?", movie_id)
+    movie_info = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
+    print(movie_info)
+
+    # return the page
+    return render_template("movie_user_review.html", user_review=user_review, movie_info=movie_info)
+
 
 @app.route("/celebs", methods=["GET", "POST"])
 @login_required

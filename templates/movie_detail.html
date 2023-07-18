@@ -53,5 +53,6 @@
         {% endfor %}
     {% endif %}
 </div>
+<span class="badge" id="movie-list-button"><a id="movie-list-button-font" href="{{ url_for('movie_user_review', movie_id=movie_info.id) }}">Show All</a></span>
 
 {% endblock %}
