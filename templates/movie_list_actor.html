@@ -9,6 +9,7 @@
 <h2 class="sub-title">{{ movie_list[0]["name"] }}</h2>
 <p>{{ movie_list[0]["birth"] }}</p>
 <p>Actor</p>
+<span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_movie_list_actor_page', celeb_id=movie_list[0].person_id) }}">+Favorite</a></span>
 
 
 <h2 class="sub-section-title">List Movie</h2>

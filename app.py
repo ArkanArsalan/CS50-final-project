@@ -282,7 +282,7 @@ def insert_to_favceleb(celeb_id):
     return True
 
 
-@app.route("/celebs/name:<string:celeb_id>")
+@app.route("/celebs/addfav/id:<string:celeb_id>")
 @login_required
 def add_favorite_celeb_celebs_page(celeb_id):
     # If celeb already in favorite list flash error message
@@ -294,7 +294,7 @@ def add_favorite_celeb_celebs_page(celeb_id):
     return redirect(url_for("celebs"))
 
 
-@app.route("//name:<string:celeb_id>")
+@app.route("//addfav/id:<string:celeb_id>")
 @login_required
 def add_favorite_celeb_main_page(celeb_id):
     # If celeb already in favorite list flash error message
@@ -304,6 +304,42 @@ def add_favorite_celeb_main_page(celeb_id):
 
     # Redirect to celeb page
     return redirect(url_for("index"))
+
+
+@app.route("/celebs/actor_director/addfav/id<string:celeb_id>")
+@login_required
+def add_favorite_celeb_movie_list_actor_director_page(celeb_id):
+    # If celeb already in favorite list flash error message
+    if not insert_to_favceleb(celeb_id):
+        error_message = "Already in your favorite list"
+        flash(error_message)
+
+    # Redirect to celeb page
+    return redirect(url_for("celeb_movie_list", celeb_id=celeb_id))
+
+
+@app.route("/celebs/actor/addfav/id<string:celeb_id>")
+@login_required
+def add_favorite_celeb_movie_list_actor_page(celeb_id):
+    # If celeb already in favorite list flash error message
+    if not insert_to_favceleb(celeb_id):
+        error_message = "Already in your favorite list"
+        flash(error_message)
+
+    # Redirect to celeb page
+    return redirect(url_for("celeb_movie_list", celeb_id=celeb_id))
+
+
+@app.route("/celebs/director/addfav/id<string:celeb_id>")
+@login_required
+def add_favorite_celeb_movie_list_director_page(celeb_id):
+    # If celeb already in favorite list flash error message
+    if not insert_to_favceleb(celeb_id):
+        error_message = "Already in your favorite list"
+        flash(error_message)
+
+    # Redirect to celeb page
+    return redirect(url_for("celeb_movie_list", celeb_id=celeb_id))
 
 
 def insert_to_watchlater(movie_id):
