@@ -12,17 +12,20 @@
     <div class="search-movie">
         <input type="number" class="box-input" id="birth-year" name="birth-year" min="1800" max="2023" step="1" placeholder="birth-Year">
     </div>
-    <button type="submit" id="search-button">Search</button>
+    <button type="submit" class="search-button" id="blue-button">Search</button>
 </form>
+
+<br>
+
 <ol class="list-group list-group-numbered">
     {% for output in outputs %}
         <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div>
+            <div class="container-movies-info">
                 <div class="fw-bold" id="title">{{ output["name"] }}</div>
                 <div id="year">Birth year : {{ output["birth"] }}</div>
-                <span class="badge" id="movie-list-button"><a id="movie-list-button-font" href="{{ url_for('celeb_movie_list', celeb_id=output.id) }}">Detail</a></span>
+                <a class="side-button" id="blue-button" href="{{ url_for('celeb_movie_list', celeb_id=output.id) }}">Detail</a>
             </div>
-            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_celebs_page', celeb_id=output.id) }}">+Favorite</a></span>
+            <a class="side-button" id="blue-button" href="{{ url_for('add_favorite_celeb_celebs_page', celeb_id=output.id) }}">+Favorite</a>
         </li>
     {% endfor %}
 </ol>

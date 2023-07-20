@@ -5,43 +5,43 @@
 {% endblock %}
 
 {% block main %}
-<h2 id="section-title">Review</h2>
-<form action="/review" method="POST">
-    <div class="mb-3" id="movie-name-container">
-        <label for="movie-name">Movie Name:</label>
+<div class="review-section-page">
+    <form action="/review" method="POST" id="form-review">
+        <div class="mb-3" id="movie-name-container">
+            <label for="movie-name">Movie Name:</label>
+            <br>
+            <input id="movie-name" name="movie-name" autofocus autocomplete="off" type="text">
+        </div>
+        <div id="rate-container">
+            <label for="rate">Rating:</label>
+            <br>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="rating" id="rating1" value="1">
+                <label for="inlineRadio1">1</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="rating" id="rating2" value="2">
+                <label for="inlineRadio2">2</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="rating" id="rating3" value="3">
+                <label for="inlineRadio3">3</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="rating" id="rating4" value="4">
+                <label for="inlineRadio3">4</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input type="radio" name="rating" id="rating5" value="5">
+                <label for="inlineRadio3">5</label>
+            </div>
+        </div>
+        <div id="comment-container">
+            <label for="comment-label" id="comment-label">Comment:</label>
+            <textarea id="comment-text-area" name="comment"></textarea>
+          </div>
         <br>
-        <input class="form-control mx-auto w-auto" id="movie-name" name="movie-name" autofocus autocomplete="off" type="text">
-    </div>
-    <div id="rate-container">
-        <label for="rate">Rating:</label>
-        <br>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rating" id="rating1" value="1">
-            <label class="form-check-label" for="inlineRadio1">1</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
-            <label class="form-check-label" for="inlineRadio2">2</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
-            <label class="form-check-label" for="inlineRadio3">3</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
-            <label class="form-check-label" for="inlineRadio3">4</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
-            <label class="form-check-label" for="inlineRadio3">5</label>
-        </div>
-    </div>
-    <br>
-    <div class="form-group" id="comment-container">
-        <label for="comment-label" id="comment-label">Comment:</label>
-        <textarea id="comment-text-area" name="comment"></textarea>
-      </div>
-    <br>
-    <button id="submit-quote" class="btn btn-primary" type="submit">Confirm</button>
-</form>
+        <button class="side-button" id="blue-button" type="submit">Confirm</button>
+    </form>
+</div>
 {% endblock %}

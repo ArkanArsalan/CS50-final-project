@@ -5,19 +5,33 @@
 {% endblock %}
 
 {% block main %}
+<div class="main-container">
+    <div class="main-container-1">
+        <h1>MOVRAT</h1>
+        <p>Discover new movie to watch <br>Review it later.</p>
+        <div id="main-container-1-button">
+            <a href="/movies" class="main-button" id="blue-button">Search Movies</a>
+            <a href="/review" class="main-button" id="grey-button">Review</a>    
+        </div>
+    </div>
+    <div class="main-container-2">
+        <img src="{{ url_for('static', filename='#d5dff6.jpg') }}">
+    </div>
+</div>
 <br>
+
 <h1 class="section-title">Top Rated Movies</h1>
-<ol class="list-group list-group-numbered">
+<ol class="list-group list-group-numbered" id="top-rated-movies-list">
     {% for movie in movies %}
         {% if movie["rating"] != -1 %}
             <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div>
+                <div class="container-movies-info">
                     <div class="fw-bold" id="title">{{ movie["title"] }}</div>
                     <div id="year">{{ movie["year"] }}</div>
                     <div id="avg-rating">rating: {{ movie["rating"] }}</div>
-                    <span class="badge" id="detail-button"><a id="detail-button-font" href="{{ url_for('movie_detail', movie_id=movie.id) }}">Detail</a></span>
+                    <a class="side-button" id="blue-button" href="{{ url_for('movie_detail', movie_id=movie.id) }}">Detail</a>
                 </div>
-                <span class="badge" id="watchlater-button"><a id="watchlater-button-font" href="{{ url_for('add_watchlater_main_page', movie_id=movie.id) }}">+Add to watch later</a></span>
+                <a class="side-button" id="blue-button" href="{{ url_for('add_watchlater_main_page', movie_id=movie.id) }}">+Add to watch later</a>
             </li>
         {% endif %}
     {% endfor %}
@@ -29,13 +43,13 @@
 <ol class="list-group list-group-numbered">
     {% for celeb in celebs %}
         <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div>
+            <div class="container-movies-info">
                 <div class="fw-bold" id="celeb-name">{{ celeb["name"] }}</div>
                 <div id="celeb-birth-year">Birth year : {{ celeb["birth"] }}</div>
                 <div id="Vote">Vote : {{ celeb["favorite_vote"] }}</div>
-                <span class="badge" id="movie-list-button"><a id="movie-list-button-font" href="{{ url_for('celeb_movie_list', celeb_id=celeb.id) }}">Detail</a></span>
+                <a class="side-button" id="blue-button" href="{{ url_for('celeb_movie_list', celeb_id=celeb.id) }}">Detail</a>
             </div>
-            <span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_main_page', celeb_id=celeb.id) }}">+Favorite</a></span>
+            <a class="side-button" id="blue-button" href="{{ url_for('add_favorite_celeb_main_page', celeb_id=celeb.id) }}">+Favorite</a>
         </li>
     {% endfor %}
 </ol>

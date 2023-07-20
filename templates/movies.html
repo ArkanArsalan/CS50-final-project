@@ -12,12 +12,13 @@
     <div class="search-movie">
         <input type="number" class="box-input" id="movie-year" name="movie-year" min="1900" max="2099" step="1" placeholder="Year">
     </div>
-    <button type="submit" id="search-button">Search</button>
+    <button type="submit" class="search-button" id="blue-button">Search</button>
 </form>
+<br>
 <ol class="list-group list-group-numbered">
     {% for output in outputs %}
         <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div>
+            <div class="container-movies-info">
                 <div class="fw-bold" id="title">{{ output["title"] }}</div>
                 <div id="year">{{ output["year"] }}</div>
                 {% if output["rating"] != -1 %}
@@ -25,9 +26,9 @@
                 {% else %}
                     <div id="not-yet-rated">Rating: Not Yet Rated</div>
                 {% endif %}
-                <span class="badge" id="detail-button"><a id="detail-button-font" href="{{ url_for('movie_detail', movie_id=output.id) }}">Detail</a></span>
+                <a class="side-button" id="blue-button" href="{{ url_for('movie_detail', movie_id=output.id) }}">Detail</a>
             </div>
-            <span class="badge" id="watchlater-button"><a id="watchlater-button-font" href="{{ url_for('add_watchlater_movies_page', movie_id=output.id) }}">+Add to watch later</a></span>
+            <a class="side-button" id="blue-button" href="{{ url_for('add_watchlater_movies_page', movie_id=output.id) }}">+Add to watch later</a>
         </li>
     {% endfor %}
 </ol>

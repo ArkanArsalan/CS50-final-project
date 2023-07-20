@@ -1,3 +1,108 @@
+body {
+    background-color: #fbfcfe;
+    color: #09132a;
+}
+
+main {
+    padding-bottom: 30px 0;
+    margin: 0 5%;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    text-align: left;
+    gap: 2em;
+    padding-bottom: 2em;
+    padding-top: 2em;
+    flex-wrap: wrap-reverse;
+}
+
+.main-container-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    justify-content: center;
+    width: 50%;
+}
+
+.main-container-2 {
+    display: flex;
+    width: 45%;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container-2 img {
+    width: 80%;
+    height: 90%;
+}
+
+#main-container-1-button {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    text-decoration: none;
+}
+
+.main-button {
+    padding: 16px 32px;
+    border-radius: 6px;
+}
+
+.side-button {
+    padding: 2px 3px;
+    border-radius: 3px;
+    font-size: smaller;
+}
+
+.search-button {
+    padding: 4px 7px;
+    border-radius: 6px;
+}
+
+#blue-button {
+    background-color: #2b58bf;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
+}
+
+#blue-button:hover {
+    background-color: #1f3d88;
+}
+
+#grey-button {
+    background-color: #d5dff6;
+    text-decoration: none;
+    color: #09132a;
+    transition: 0.2s;
+}
+
+#grey-button:hover {
+    background-color: #979dad;
+}
+
+.review-section-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5% 5%;
+}
+
+#form-review {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #99a1b3;
+    padding: 2em;
+    width: 80%;
+    border-radius: 5px;
+    gap: 2em;
+}
+
 .section-title {
     text-align: left;
     font-size: 21px;
@@ -6,6 +111,12 @@
 .sub-section-title {
     text-align: left;
     font-size: 18px;
+}
+
+.container-movies-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #top-comment {
@@ -23,7 +134,12 @@
 
 #comment-container {
     display: flex;
-    justify-content: center;
+    justify-content: start;
+}
+
+#comment-text-area {
+    height: 100px;
+    width: 65%;
 }
 
 #comment-label {
