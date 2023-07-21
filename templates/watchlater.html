@@ -14,7 +14,7 @@
                 <div class="fw-bold" id="title">{{ movie["title"] }}</div>
                 <div id="year">{{ movie["year"] }}</div>
             </div>
-            <span class="badge" id="remove-button"><a id="remove-button-font" href="{{ url_for('remove_watchlater', movie_title=movie.title) }}">Remove</a></span>
+            <a class="side-button" id="red-button" href="{{ url_for('remove_watchlater', movie_title=movie.title) }}">Remove</a>
         </li>
     {% endfor %}
 </ol>

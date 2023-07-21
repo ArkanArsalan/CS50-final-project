@@ -53,13 +53,18 @@ main {
 }
 
 .side-button {
-    padding: 2px 3px;
+    padding: 0 2px;
     border-radius: 3px;
     font-size: smaller;
 }
 
 .search-button {
     padding: 4px 7px;
+    border-radius: 6px;
+}
+
+.submit-button {
+    padding: 6px 8px;
     border-radius: 6px;
 }
 
@@ -85,11 +90,72 @@ main {
     background-color: #979dad;
 }
 
+#red-button {
+    background-color: #ED2B2A;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
+}
+
+#red-button:hover {
+    background-color: #d12525;
+}
+
 .review-section-page {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 5% 5%;
+}
+
+.login-main-section {
+    margin: 3em 3em;
+    display: flex;
+    justify-content: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #99a1b3;
+    padding: 2em;
+    width: 40%;
+    border-radius: 5px;
+    gap: 2em;
+}
+
+#form-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2em;
+}
+
+.register-main-section {
+    margin: 3em 3em;
+    display: flex;
+    justify-content: center;
+}
+
+.register-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #99a1b3;
+    padding: 2em;
+    width: 40%;
+    border-radius: 5px;
+    gap: 2em;
+}
+
+#form-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2em;
 }
 
 #form-review {
@@ -119,19 +185,6 @@ main {
     align-items: center;
 }
 
-#top-comment {
-    display: flex;
-}
-
-#comment-item {
-    min-height: 200px;
-    width: 200px;
-    margin: 10px;
-    border: 3px solid black;
-    border-radius: 15px;
-    flex-grow: 1;
-}
-
 #comment-container {
     display: flex;
     justify-content: start;
@@ -158,86 +211,4 @@ label {
     padding-bottom: 10px;
 }
 
-#search-button {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    height: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border: none;
-    outline: none;
-    border-radius: 5px; 
-    margin-bottom: 10px;
-    transition: all 160ms ease-in-out;
-}
 
-#watchlater-button {
-    background-color: #0079ff;
-    transition: 0.4s;
-}
-
-#watchlater-button:hover {
-    background-color: #0464d2;
-}
-
-#watchlater-button-font {
-    color: white;
-    text-decoration: none;
-}
-
-#favorite-button {
-    background-color: #0079ff;
-    transition: 0.4s;
-}
-
-#favorite-button:hover {
-    background-color: #0464d2;
-}
-
-#favorite-button-font {
-    color: white;
-    text-decoration: none;
-}
-
-#detail-button {
-    background-color: #0079ff;
-    transition: 0.4s;
-}
-
-#detail-button:hover {
-    background-color: #0464d2;
-}
-
-#detail-button-font {
-    color: white;
-    text-decoration: none;
-}
-
-#movie-list-button {
-    background-color: #0079ff;
-    transition: 0.4s;
-}
-
-#movie-list-button:hover {
-    background-color: #0464d2;
-}
-
-#movie-list-button-font {
-    color: white;
-    text-decoration: none;
-}
-
-#remove-button {
-    background-color: #ED2B2A;
-    transition: 0.4s;
-}
-
-#remove-button:hover {
-    background-color: #d12525;
-}
-
-#remove-button-font {
-    color: white;
-    text-decoration: none;
-}
