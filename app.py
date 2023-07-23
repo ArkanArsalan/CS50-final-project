@@ -179,6 +179,7 @@ def review():
                 for row in movie_rating:
                     sum += int(row["rating"])
                 avg_rating = sum / len(movie_rating)
+                avg_rating = round(avg_rating, 2)
                 db.execute("UPDATE movies SET rating = ? WHERE id = ?", avg_rating, int(movie_id[0]["id"]))
                 return redirect("/")
     else:
