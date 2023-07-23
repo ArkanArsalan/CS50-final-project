@@ -179,7 +179,7 @@ main {
     font-size: 18px;
 }
 
-.container-movies-info {
+.container-list-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -211,4 +211,17 @@ label {
     padding-bottom: 10px;
 }
 
+.movie-list-celebs-container {
+    margin: 2em 0;
+}
+
+.movie-detail-container {
+    margin: 2em 0;
+}
+
+.container-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 

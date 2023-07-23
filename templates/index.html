@@ -25,7 +25,7 @@
     {% for movie in movies %}
         {% if movie["rating"] != -1 %}
             <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="container-movies-info">
+                <div class="container-list-info">
                     <div class="fw-bold" id="title">{{ movie["title"] }}</div>
                     <div id="year">{{ movie["year"] }}</div>
                     <div id="avg-rating">rating: {{ movie["rating"] }}</div>
@@ -43,7 +43,7 @@
 <ol class="list-group list-group-numbered">
     {% for celeb in celebs %}
         <li class="list-group-item d-flex justify-content-between align-items-start">
-            <div class="container-movies-info">
+            <div class="container-list-info">
                 <div class="fw-bold" id="celeb-name">{{ celeb["name"] }}</div>
                 <div id="celeb-birth-year">Birth year : {{ celeb["birth"] }}</div>
                 <div id="Vote">Vote : {{ celeb["favorite_vote"] }}</div>

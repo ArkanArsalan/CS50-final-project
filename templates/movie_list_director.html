@@ -5,27 +5,30 @@
 {% endblock %}
 
 {% block main %}
-<br>
-<h2 class="sub-title">{{ movie_list[0]["name"] }}</h2>
-<p>{{ movie_list[0]["birth"] }}</p>
-<p>Director</p>
-<span class="badge" id="favorite-button"><a id="favorite-button-font" href="{{ url_for('add_favorite_celeb_movie_list_director_page', celeb_id=movie_list[0].person_id) }}">+Favorite</a></span>
-
-<h2 class="sub-section-title">List Movie</h2>
-<ol class="list-group list-group">
-    {% for movie in movie_list %}
-        <li class="list-group-item d-flex justify-content-center align-items-start">
-            <div>
-                <div class="fw-bold" id="title">{{ movie["title"] }}</div>
-                <div id="year">{{ movie["year"] }}</div>
-                {% if movie["rating"] != -1 %}
-                    <div id="rating">Rating: {{ movie["rating"] }}</div>
-                {% else %}
-                    <div id="not-yet-rated">Rating: Not Yet Rated</div>
-                {% endif %}
-            </div>
-        </li>
-    {% endfor %}
-</ol>
+<div class="movie-list-celebs-container">
+    <div class="container-title">
+        <h2 class="sub-title">{{ movie_list[0]["name"] }}</h2>
+        <p>{{ movie_list[0]["birth"] }}</p>
+        <p>Director</p>
+        <a class="side-button" id="blue-button" href="{{ url_for('add_favorite_celeb_movie_list_director_page', celeb_id=movie_list[0].person_id) }}">+Favorite</a>
+    </div>
+    
+    <h2 class="sub-section-title">List Movie</h2>
+    <ol class="list-group list-group">
+        {% for movie in movie_list %}
+            <li class="list-group-item d-flex justify-content-center align-items-start">
+                <div class="container-list-info">
+                    <div class="fw-bold" id="title">{{ movie["title"] }}</div>
+                    <div id="year">{{ movie["year"] }}</div>
+                    {% if movie["rating"] != -1 %}
+                        <div id="rating">Rating: {{ movie["rating"] }}</div>
+                    {% else %}
+                        <div id="not-yet-rated">Rating: Not Yet Rated</div>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ol>
+</div>
 
 {% endblock %}
