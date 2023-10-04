@@ -1,6 +1,6 @@
 # CS50-final-project
 # MOVRAT : A Movies Rating Website
-#### Video Demo:  https://youtu.be/D9UKO_XVZys
+
 #### Description:
 My final project for CS50 is a dynamic website that empowers movie enthusiasts to explore and engage the world of movies. This website enables the user to express their opinions and share their review of certain movies to the community. It aims to become a hub for many users for finding a new movies to watch.
 
